@@ -7,8 +7,6 @@ function App() {
   const [changeAmount, setChangeAmount] = useState('')
   const [notes, setNotes] = useState({})
 
-  const onBillChangeHandler = (e) => setBillAmount(e.target.value)
-  const onCashChangeHandler = (e) => setCash(e.target.value)
   const calculateChange = () => {
     // Conditions
     // 1. If Cash given is lesser than bill amount
@@ -20,12 +18,7 @@ function App() {
     } else if (cash === billAmount) {
       setChangeAmount('Thanks for visiting😄')
     } else if (cash < billAmount) {
-      if (cash - billAmount > 0) {
-        setChangeAmount(cash - billAmount)
-        amountToNotes(cash - billAmount)
-      } else {
-        setChangeAmount('Do you want wash plates 😠?')
-      }
+      setChangeAmount('Do you want to wash plates 😠')
     }
   }
 
@@ -60,7 +53,7 @@ function App() {
         className="inputStyles"
         type="number"
         value={billAmount}
-        onChange={onBillChangeHandler}
+        onChange={(e) => setBillAmount(Number(e.target.value))}
       />
       {billAmount > 0 && (
         <React.Fragment>
@@ -69,7 +62,7 @@ function App() {
             className="inputStyles"
             type="number"
             value={cash}
-            onChange={onCashChangeHandler}
+            onChange={(e) => setCash(Number(e.target.value))}
           />
         </React.Fragment>
       )}
@@ -84,7 +77,7 @@ function App() {
       {changeAmount > 0 && (
         <div className="tableContainer">
           Denominations
-          <table className="tableStyles">
+          <tbody className="tableStyles">
             <tr>
               <th>No. of notes</th>
               {Object.values(notes).map((val, i) => {
@@ -97,7 +90,7 @@ function App() {
                 return val > 0 && <td key={i}>{key}</td>
               })}
             </tr>
-          </table>
+          </tbody>
         </div>
       )}
     </div>
